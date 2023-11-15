@@ -19,7 +19,11 @@ export class TicketListComponent implements OnInit {
   }
 
   ticketHasBeenSelected(hasBeenSelected: boolean) {
-    console.log('event received from child:', hasBeenSelected);
+    console.log('Selected:', hasBeenSelected);
   }
 
+  ticketHasBeenDeleted(hasBeenDeleted: boolean,ticket: Ticket){
+    console.log('Deleted:', hasBeenDeleted);
+    this.ticketService.deleteTicket(ticket)
+  }
 }
