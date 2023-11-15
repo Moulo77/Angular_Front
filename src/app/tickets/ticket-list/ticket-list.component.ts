@@ -10,6 +10,7 @@ import { Ticket } from '../../../models/ticket';
 export class TicketListComponent implements OnInit {
 
   public ticketList: Ticket[] = [];
+  public displayTicketArchived: boolean = true;
 
   constructor(public ticketService: TicketService) {
     this.ticketService.tickets$.subscribe((tickets) => this.ticketList = tickets);
@@ -25,5 +26,15 @@ export class TicketListComponent implements OnInit {
   ticketHasBeenDeleted(hasBeenDeleted: boolean,ticket: Ticket){
     console.log('Deleted:', hasBeenDeleted);
     this.ticketService.deleteTicket(ticket)
+  }
+
+  toggleDisplayTicketArchived() {
+    this.displayTicketArchived = !this.displayTicketArchived;
+  }
+
+  get filteredTicketList(): Ticket[] {
+    return this.displayTicketArchived ?
+      this.ticketList :
+      this.ticketList.filter(ticket => !ticket.archived);
   }
 }

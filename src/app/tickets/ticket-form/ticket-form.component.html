@@ -10,6 +10,13 @@
     <input class="input-custom" type="text" id="description" [formControlName]="'description'">
   </label>
   <br>
+  <label for="student">
+    Student <br>
+    <select name="student-field" id="student" [formControlName]="'studentID'">
+      <option *ngFor="let student of students" [value]="student.id">{{ student.id}} - {{ student.surname }} {{ student.name }}</option>
+    </select>
+  </label>
+  <br>
   <label for="major">
     Filiere <br>
     <select name="major-field" id="major" [formControlName]="'major'" >

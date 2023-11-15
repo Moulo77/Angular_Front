@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TicketService } from '../../../services/ticket/ticket.service';
 import { Major, Ticket } from '../../../models/ticket';
+import { Student } from 'src/models/student';
+import { STUDENTS_MOCKED } from 'src/mocks/students.mock';
 
 @Component({
   selector: 'app-ticket-form',
@@ -18,12 +20,14 @@ export class TicketFormComponent implements OnInit {
    */
   public ticketForm: FormGroup;
   public majors = Object.values(Major);
+  public students: Student[] = STUDENTS_MOCKED;
 
   constructor(public formBuilder: FormBuilder, public ticketService: TicketService) {
     // Form creation
     this.ticketForm = this.formBuilder.group({
       title: [''],
       description: [''],
+      studentID: 1,
       major: Major.GB
     });
     // You can also add validators to your inputs such as required, maxlength or even create your own validator!
@@ -35,11 +39,23 @@ export class TicketFormComponent implements OnInit {
   }
 
   addTicket() {
-    const ticketToCreate: Ticket = this.ticketForm.getRawValue() as Ticket;
-    console.log(ticketToCreate);
-    ticketToCreate.date = new Date();
-    ticketToCreate.student = 'Me';
-    this.ticketService.addTicket(ticketToCreate);
+    const data = this.ticketForm.getRawValue()
+    const title = data.title
+    const desc = data.description
+    const major = data.major
+    const stdID = data.studentID
+    
+    const studentTemp: Student = this.students.find(student => student.id === stdID);
+    const ticket: Ticket = {
+      title: title,
+      description: desc,
+      date: new Date(),
+      student: studentTemp,
+      major: major,
+      archived: false
+    }
+
+    this.ticketService.addTicket(ticket)
   }
 
 }

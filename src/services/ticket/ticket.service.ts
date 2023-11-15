@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Ticket } from '../../models/ticket';
 import { TICKETS_MOCKED } from '../../mocks/tickets.mock';
 import { BehaviorSubject } from 'rxjs/index';
+import { tick } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,12 @@ export class TicketService {
     this.ticketList.push(ticket);
   }
 
-  deleteTicket(ticket: Ticket) {
-    this.ticketList.splice(this.ticketList.indexOf(ticket), 1);
+  deleteTicket(ticket: Ticket): void {
+    const index = this.ticketList.indexOf(ticket);
+
+    if (index !== -1) {
+      this.ticketList[index].archived = true;
+      this.tickets$.next(this.ticketList);
+    }
   }
 }
