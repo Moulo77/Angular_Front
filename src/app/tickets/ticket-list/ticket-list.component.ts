@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../../services/ticket/ticket.service';
 import { Ticket } from '../../../models/ticket';
+import { StudentService } from 'src/services/student/student.service';
+import { STUDENTS_MOCKED } from 'src/mocks/students.mock';
+import { Student } from 'src/models/student';
 
 @Component({
   selector: 'app-ticket-list',
@@ -10,10 +13,12 @@ import { Ticket } from '../../../models/ticket';
 export class TicketListComponent implements OnInit {
 
   public ticketList: Ticket[] = [];
+  public studentList: Student[] = [];
   public displayTicketArchived: boolean = true;
 
-  constructor(public ticketService: TicketService) {
+  constructor(public ticketService: TicketService, private studentService: StudentService) {
     this.ticketService.tickets$.subscribe((tickets) => this.ticketList = tickets);
+    this.studentService.getStudents()
   }
 
   ngOnInit() {

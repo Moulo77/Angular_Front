@@ -1,8 +1,7 @@
 <div class="card ticket">
-  <button class="btn btn-delete fas fa-trash" (click)="deleteTicket()" mat-fab color="warn" aria-label="Delete ticket">
+  <button #archivebtn class="btn btn-delete fas fa-trash" (click)="deleteTicket()" mat-fab color="warn" aria-label="Archive ticket">
   </button>
   <div (click)="selectTicket()">
-    <!-- we use the {{ }} syntax to display the data, more info: https://angular.io/guide/displaying-data-->
     <h3>Titre: {{ticket.title}}</h3>
     <i class="fas fa-calendar-alt"></i> {{ticket.date | date: 'shortTime'}} &nbsp;&nbsp;
     <i class="far fa-user"></i> {{ticket.student.name}}  {{ ticket.student.surname}}

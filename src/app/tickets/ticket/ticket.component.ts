@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Ticket } from '../../../models/ticket';
 
 @Component({
@@ -8,10 +8,8 @@ import { Ticket } from '../../../models/ticket';
 })
 export class TicketComponent implements OnInit {
 
-  /**
-   * Inputs & Output allow communication between parent & child components.
-   * More information: https://angular.io/guide/component-interaction
-   */
+  @ViewChild('archivebtn') archivebtn: ElementRef;
+
   @Input()
   ticket: Ticket;
 
@@ -25,6 +23,7 @@ export class TicketComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.hideButton();
   }
 
   selectTicket() {
@@ -33,5 +32,13 @@ export class TicketComponent implements OnInit {
 
   deleteTicket() {
     this.ticketHasBeenDeleted.emit(true);
+    this.hideButton();
+  }
+
+  hideButton() {
+    if(this.ticket.archived){
+      const btnElement = this.archivebtn.nativeElement;
+      btnElement.style.display = 'none';
+    }
   }
 }
